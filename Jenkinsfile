@@ -2,19 +2,11 @@ pipeline {
     agent any
 
     environment {
-        // Usamos las credenciales de Jenkins para el usuario y la contraseña
         DOCKER_USER = credentials('docker-usuario')  // ID de la credencial de usuario en Jenkins
         DOCKER_PASSWORD = credentials('docker-password')  // ID de la credencial de contraseña en Jenkins
     }
 
     stages {
-        stage('Limpiar Workspace') {
-            steps {
-                // Eliminar el directorio 'product-api' si existe
-                sh 'rm -rf product-api'
-            }
-        }
-
         stage('Clonar Repositorio') {
             steps {
                 // Clona el repositorio desde Git
@@ -24,28 +16,28 @@ pipeline {
 
         stage('Construir Imagen Docker') {
             steps {
-                // Construir la imagen Docker usando el Dockerfile
-                sh 'sudo docker build -t product-api:latest ./app'
+                // Construir la imagen Docker sin usar sudo
+                sh 'docker build -t product-api:latest ./app'
             }
         }
 
         stage('Iniciar Sesión en Docker Registry') {
             steps {
                 // Realizar login en Docker Registry usando las credenciales de Jenkins
-                sh "echo \$DOCKER_PASSWORD | sudo docker login -u \$DOCKER_USER --password-stdin"
+                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USER --password-stdin"
             }
         }
 
         stage('Tag para Docker Registry') {
             steps {
-                sh 'sudo docker tag product-api:latest danielsanchez18/product-api:latest'
+                sh 'docker tag product-api:latest danielsanchez18/product-api:latest'
             }
         }
 
         stage('Subir Imagen a Docker Registry') {
             steps {
                 // Subir la imagen Docker construida al Docker Registry
-                sh 'sudo docker push danielsanchez18/product-api:latest'
+                sh 'docker push danielsanchez18/product-api:latest'
             }
         }
     }
