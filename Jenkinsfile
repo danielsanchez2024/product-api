@@ -6,16 +6,15 @@ pipeline {
         DOCKER_PASSWORD = credentials('docker-password')  // ID de la credencial de contraseña en Jenkins
     }
 
-    stages {
+   
         stage('Limpiar Workspace') {
             steps {
                 // Eliminar el directorio 'product-api' si existe
                 sh 'rm -rf product-api'
             }
         }
-    }
     
-    stages {
+
         stage('Clonar Repositorio') {
             steps {
                 // Clona el repositorio desde la rama correcta
