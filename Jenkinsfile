@@ -26,7 +26,7 @@ pipeline {
         stage('verificar version docker') {
             steps {
                 // Construir la imagen Docker
-                sh 'sudo docker --version'
+                sh 'docker --version'
             }
         }
 
