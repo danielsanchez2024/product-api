@@ -14,6 +14,14 @@ pipeline {
             }
         }
 
+        stage('verificar version docker') {
+            steps {
+                // Construir la imagen Docker
+                sh 'docker --version'
+            }
+        }
+
+
         stage('Construir Imagen Docker') {
             steps {
                 // Construir la imagen Docker
