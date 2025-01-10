@@ -7,6 +7,15 @@ pipeline {
     }
 
     stages {
+        stage('Limpiar Workspace') {
+            steps {
+                // Eliminar el directorio 'product-api' si existe
+                sh 'rm -rf product-api'
+            }
+        }
+    }
+        
+    stages {
         stage('Clonar Repositorio') {
             steps {
                 // Clona el repositorio desde Git
