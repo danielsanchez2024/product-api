@@ -3,7 +3,8 @@ pipeline {
   stages {
     stage('Clonar repositorio') {
       steps {
-        sh 'git clone https://github.com/danielsanchez2024/product-api.git'
+        sh 'mkdir -p ~/.ssh'
+        sh 'ssh-keyscan github.com >> ~/.ssh/known_hosts'
       }
     }
 
