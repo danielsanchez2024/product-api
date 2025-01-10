@@ -1,0 +1,41 @@
+services:
+  api: 
+    image: product-api
+    environment:
+      DB_URL: "mongodb://database:27017/mydb"
+    ports:
+      - "5000:5000"
+    networks:
+      network-db:
+        aliases:
+          - api-network
+      network-nginx:
+        aliases:
+          - api
+    deploy:
+      replicas: 1
+      placement:
+        constraints: 
+          - node.role == manager
+
+  database:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_DATABASE=mydb
+    volumes:
+      - ./dbmongo:/data/db  
+    networks:
+      network-db:  
+        aliases:
+          - database-network
+    deploy:
+      replicas: 1
+      placement:
+        constraints: 
+          - node.role == manager
+
+networks:
+  network-db:
+    driver: overlay  
+  network-nginx:
+    driver: overlay  
