@@ -15,7 +15,7 @@ pipeline {
                 sh 'rm -rf product-api'
             }
         }
-        
+
         stage('Clonar Repositorio') {
             steps {
                 // Clona el repositorio desde la rama correcta
@@ -26,7 +26,7 @@ pipeline {
         stage('verificar version docker') {
             steps {
                 // Construir la imagen Docker
-                sh 'docker --version'
+                sh 'sudo docker --version'
             }
         }
 
