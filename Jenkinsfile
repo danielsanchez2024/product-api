@@ -14,13 +14,13 @@ pipeline {
             }
         }
     }
-        
+
     stages {
         stage('Clonar Repositorio') {
             steps {
                 // Clona el repositorio desde Git
                 echo 'Clonando el repositorio...'
-                sh 'git clone https://github.com/danielsanchez2024/product-api.git'
+                sh 'git clone -b main https://github.com/danielsanchez2024/product-api.git'
             }
         }
 
