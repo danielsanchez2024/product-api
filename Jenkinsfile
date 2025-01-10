@@ -25,27 +25,27 @@ pipeline {
         stage('Construir Imagen Docker') {
             steps {
                 // Construir la imagen Docker usando el Dockerfile
-                sh 'sudo docker build -t product-api:latest ./app'
+                sh 'docker build -t product-api:latest ./app'
             }
         }
 
         stage('Iniciar Sesión en Docker Registry') {
             steps {
                 // Realizar login en Docker Registry usando las credenciales de Jenkins
-                sh "echo \$DOCKER_PASSWORD | sudo docker login -u \$DOCKER_USER --password-stdin"
+                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USER --password-stdin"
             }
         }
 
         stage('Tag para Docker Registry') {
             steps {
-                sh 'sudo docker tag product-api:latest danielsanchez18/product-api:latest'
+                sh 'docker tag product-api:latest danielsanchez18/product-api:latest'
             }
         }
 
         stage('Subir Imagen a Docker Registry') {
             steps {
                 // Subir la imagen Docker construida al Docker Registry
-                sh 'sudo docker push danielsanchez18/product-api:latest'
+                sh 'docker push danielsanchez18/product-api:latest'
             }
         }
     }
