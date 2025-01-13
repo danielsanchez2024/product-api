@@ -46,12 +46,6 @@ pipeline {
         }
 
 
-        stage('Iniciar Sesión en Docker Registry') {
-            steps {
-                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USER --password-stdin"
-            }
-        }
-
 
         stage('Subir Imagen a Docker Registry') {
             steps {
