@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USER = credentials('docker-usuario')  // ID de la credencial de usuario en Jenkins
-        DOCKER_PASSWORD = credentials('docker-password')  // ID de la credencial de contraseña en Jenkins
+        DOCKER_TOKEN = credentials('docker-token')
     }
 
 
@@ -11,21 +10,18 @@ pipeline {
 
         stage('Limpiar Workspace') {
             steps {
-                // Eliminar el directorio 'product-api' si existe
                 sh 'rm -rf product-api'
             }
         }
 
         stage('Clonar Repositorio') {
             steps {
-                // Clona el repositorio desde la rama correcta
                 sh 'git clone -b main https://github.com/danielsanchez2024/product-api.git'
             }
         }
 
         stage('verificar version docker') {
             steps {
-                // Construir la imagen Docker
                 sh 'docker --version'
             }
         }
@@ -33,7 +29,6 @@ pipeline {
 
         stage('Construir Imagen Docker') {
             steps {
-                // Construir la imagen Docker
                 sh 'docker build -t product-api:latest ./app'
             }
         }
@@ -48,7 +43,7 @@ pipeline {
 
         stage('Iniciar Sesión en Docker Registry') {
             steps {
-                sh "echo 1193380373 | docker login -u danielsanchez18 --password-stdin"
+                 sh 'echo ${DOCKER_TOKEN} | docker login -u myusername --password-stdin'
             }
         }
 
