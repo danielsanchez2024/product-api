@@ -40,7 +40,8 @@ pipeline {
 
         stage('Iniciar Sesión en Docker Registry') {
             steps {
-                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USER --password-stdin"
+                sh "docker login -u \$DOCKER_USER "
+                sh "\$DOCKER_PASSWORD"
             }
         }
 
