@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_USER = danielsanchez18  // ID de la credencial de usuario en Jenkins
-        DOCKER_PASSWORD = 1193380373  // ID de la credencial de contraseña en Jenkins
+        DOCKER_USER = credentials('docker-usuario')  // ID de la credencial de usuario en Jenkins
+        DOCKER_PASSWORD = credentials('docker-password')  // ID de la credencial de contraseña en Jenkins
     }
 
 
@@ -38,18 +38,20 @@ pipeline {
             }
         }
 
-        stage('Iniciar Sesión en Docker Registry') {
-            steps {
-                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USER --password-stdin"
-            }
-        }
-
 
         stage('Tag para Docker Registry') {
             steps {
                 sh 'docker tag product-api:latest danielsanchez18/product-api:latest'
             }
         }
+
+
+        stage('Iniciar Sesión en Docker Registry') {
+            steps {
+                sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USER --password-stdin"
+            }
+        }
+
 
         stage('Subir Imagen a Docker Registry') {
             steps {
